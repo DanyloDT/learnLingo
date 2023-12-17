@@ -1,6 +1,6 @@
 # Learn Lingo 🌍
 
-![LearnLingo](/public/images/header/logo.svg) [Live App]()
+![LearnLingo](/public/images/header/logo.svg) [Live App](https://learn-lingo-alpha.vercel.app/)
 
 ## Project Description
 
@@ -30,7 +30,7 @@ provides a variety of teachers to choose from based on language, expertise level
 
 ## 🚀 Getting Started
 
-1. Clone the repository: `https://github.com/unixeven/learn-lingo`
+1. Clone the repository: `https://github.com/DanyloDT/learnLingo`
 2. Navigate to the project directory: `cd learn-lingo`
 3. Install dependencies: `npm install`
 4. Start the project: `npm run dev`
@@ -39,7 +39,7 @@ provides a variety of teachers to choose from based on language, expertise level
 ## 🌐 Deployment
 
 The application is also deployed using [Vercel](https://vercel.com/) at
-[https://learn-lingo-beta.vercel.app/](https://learn-lingo-beta.vercel.app/).
+[https://learn-lingo-alpha.vercel.app/](https://learn-lingo-alpha.vercel.app/).
 
 ## 📝 Note for Developers
 
