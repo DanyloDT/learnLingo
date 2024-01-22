@@ -1,6 +1,7 @@
-import { MagnifyingGlass } from "react-loader-spinner";
+import { FC } from 'react';
+import { MagnifyingGlass } from 'react-loader-spinner';
 
-export const NoFavorites = () => {
+export const NoFavorites: FC = (): JSX.Element => {
   return (
     <div className="mt-[60px] flex items-center justify-center">
       <div className="flex flex-col items-center justify-center">

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { usePathname, useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-import { LuEyeOff, LuEye } from "react-icons/lu";
-import { login } from "@/services/api";
-import { validationSchema } from "@/utils/loginValidationThema";
+import React, { useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { usePathname, useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { LuEyeOff, LuEye } from 'react-icons/lu';
+import { login } from '@/services/api';
+import { validationSchema } from '@/utils/loginValidationThema';
 
 interface Values {
   email: string;
@@ -15,19 +15,21 @@ interface Values {
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const initialValues = { email: "", password: "" };
+  const initialValues = { email: '', password: '' };
   const router = useRouter();
-  const pathName = usePathname();
+  const pathname = usePathname();
 
-  const handleSubmit = async (
-    values: Values,
-    { resetForm }: { resetForm: () => void }
-  ) => {
-    document.body.style.overflow = "auto";
+  const handleSubmit = async (values: Values, { resetForm }: { resetForm: () => void }) => {
+    document.body.style.overflow = 'auto';
     try {
       await login(values);
       resetForm();
-      router.replace(pathName);
+      const currentUrl = new URL(window.location.href);
+      const params = currentUrl.searchParams;
+      params.delete('login');
+      params.delete('attention');
+      const newPath = `${pathname}?${params.toString()}`;
+      router.replace(newPath);
     } catch (error: any) {
       toast.error(error.toString());
     }
@@ -36,14 +38,14 @@ export const LoginForm = () => {
   return (
     <div className="flex flex-col">
       <h1
-        style={{ fontSize: "40px" }}
+        style={{ fontSize: '40px' }}
         className="mb-5 font-semibold leading-tight tracking-tight text-gray-900 font-roboto"
       >
         Log In
       </h1>
       <p className="mb-10">
-        Welcome back! Please enter your credentials to access your account and
-        continue your search for an teacher.
+        Welcome back! Please enter your credentials to access your account and continue your search
+        for an teacher.
       </p>
       <Formik
         onSubmit={handleSubmit}
@@ -68,7 +70,7 @@ export const LoginForm = () => {
 
           <div className="relative w-full">
             <Field
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Password"
               className="text-base pl-4 py-4 border border-gray-300 rounded-xl placeholder-black min-w-190 max-w-440 w-full

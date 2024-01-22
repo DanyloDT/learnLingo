@@ -21,6 +21,8 @@ interface TeacherListProps {
   status: Thema;
 }
 
+const stringifySearchParams = (params: SearchParams) => JSON.stringify(params);
+
 export const TeachersList: FC<TeacherListProps> = ({
   searchParams,
   status,
@@ -32,8 +34,15 @@ export const TeachersList: FC<TeacherListProps> = ({
   const router = useRouter();
 
   const showBookTrial = searchParams?.trial;
-
   const showAttention = searchParams?.attention;
+  const {
+    trial,
+    attention,
+    registration,
+    login,
+    logout,
+    ...otherSearchParams
+  } = searchParams ?? {};
 
   const loadMoreTeachers = async () => {
     if (!lastDoc) return;
@@ -50,10 +59,15 @@ export const TeachersList: FC<TeacherListProps> = ({
     setLastDoc(favoritesData.lastVisible ?? null);
   };
 
+  console.log("this is other:", otherSearchParams);
+
+  const stringifiedOtherSearchParams = stringifySearchParams(otherSearchParams);
+
   useEffect(() => {
+    console.log("render");
     const loadInitialData = async () => {
       if (pathname === "/teachers") {
-        const teachersData = await getTeachersData(searchParams);
+        const teachersData = await getTeachersData(otherSearchParams);
 
         setTeachers(teachersData.teachers);
         setLastDoc(teachersData.lastVisible ?? null);
@@ -74,19 +88,22 @@ export const TeachersList: FC<TeacherListProps> = ({
       }
     };
     loadInitialData();
-  }, [pathname]);
+  }, [pathname, stringifiedOtherSearchParams]);
 
   const handleAuthCheck = (path: string, teacherId?: string | null) => {
+    const currentQueryParams = new URLSearchParams(window.location.search);
+    currentQueryParams.set(path, "true");
+    const newPathname = `${pathname}?${currentQueryParams.toString()}`;
+    router.push(newPathname);
+
     if (teacherId) {
       document.body.style.overflow = "hidden";
-      router.push(`${pathname}/?${path}=true`);
       const chosenTeacher = teachers.find(
         (teacher) => teacher.id === teacherId
       );
       setPickedTeacher(chosenTeacher ? chosenTeacher : null);
     } else {
       document.body.style.overflow = "hidden";
-      router.push(`${pathname}/?${path}=true`);
     }
   };
 
@@ -105,6 +122,12 @@ export const TeachersList: FC<TeacherListProps> = ({
       <ul className="flex flex-col gap-y-8 mt-8">
         {teachers.length === 0 && pathname === "/favorites" ? (
           <NoFavorites />
+        ) : teachers.length === 0 &&
+          pathname === "/teachers" &&
+          Object.keys(searchParams ?? {}).length > 0 ? (
+          <p className="text-3xl text-center font-medium leading-tight tracking-tight lg:leading-[48px] lg:tracking-[-0.64px]">
+            No teachers were found with these filtering parameters...
+          </p>
         ) : (
           teachers.map((item) => (
             <TeacherItem

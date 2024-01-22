@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { FC, useEffect, useState } from "react";
-import { PiBookOpenLight, PiStarFill } from "react-icons/pi";
-import { User, onAuthStateChanged } from "firebase/auth";
+import { FC, useEffect, useState } from 'react';
+import { PiBookOpenLight, PiStarFill } from 'react-icons/pi';
+import { User, onAuthStateChanged } from 'firebase/auth';
 
-import { TeacherAvatar } from "../TeacherAvatar/TeacherAvatar";
-import { TeacherLike } from "../TeacherLike/TeacherLike";
-import { TeacherReadMore } from "../TeacherReadMore/TeacherReadMore";
-import { TeacherButtonTrialLesson } from "../TeacherButtonTrialLesson/TeacherButtonTrialLesson";
-import { TeachersLevelsList } from "../TeachersLevelsList/TeachersLevelsList";
+import { TeacherAvatar } from '../TeacherAvatar/TeacherAvatar';
+import { TeacherLike } from '../TeacherLike/TeacherLike';
+import { TeacherReadMore } from '../TeacherReadMore/TeacherReadMore';
+import { TeacherButtonTrialLesson } from '../TeacherButtonTrialLesson/TeacherButtonTrialLesson';
+import { TeachersLevelsList } from '../TeachersLevelsList/TeachersLevelsList';
 
-import { auth } from "@/firebase/config";
-import { Teacher, Thema } from "@/utils/definitions";
+import { auth } from '@/firebase/config';
+import { Teacher, Thema } from '@/utils/definitions';
 
 interface TeacherProps {
   item: Teacher;
@@ -31,7 +31,7 @@ export const TeacherItem: FC<TeacherProps> = ({
   const [isUser, setIsUser] = useState<User | null>(null);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, user => {
       if (user) {
         setIsUser(user);
       } else {
@@ -75,16 +75,13 @@ export const TeacherItem: FC<TeacherProps> = ({
               </li>
               <li>
                 <p>
-                  Price / 1 hour:{" "}
-                  <span className="text-green">{item.price_per_hour} $</span>
+                  Price / 1 hour: <span className="text-green">{item.price_per_hour} $</span>
                 </p>
               </li>
             </ul>
             <TeacherLike
               onFavoriteChange={onFavoriteChange}
-              handleAuthCheck={
-                isUser ? null : () => handleAuthCheck("attention")
-              }
+              handleAuthCheck={isUser ? null : () => handleAuthCheck('attention')}
               id={item.id}
               isUser={isUser}
             />
@@ -96,21 +93,15 @@ export const TeacherItem: FC<TeacherProps> = ({
             {item.name} {item.surname}
           </p>
           <p className="mb-2 font-medium leading-6 ">
-            <span className="text-greyLabel font-medium leading-6">
-              Speaks:{" "}
-            </span>
-            <span className="underline"> {item.languages.join(", ")}</span>
+            <span className="text-greyLabel font-medium leading-6">Speaks: </span>
+            <span className="underline"> {item.languages.join(', ')}</span>
           </p>
           <p className="mb-2 font-medium leading-6">
-            <span className="text-greyLabel font-medium leading-6">
-              Lesson info:{" "}
-            </span>
+            <span className="text-greyLabel font-medium leading-6">Lesson info: </span>
             {item.lesson_info}
           </p>
           <p className="mb-4 font-medium leading-6">
-            <span className="text-greyLabel font-medium leading-6">
-              Conditions:{" "}
-            </span>
+            <span className="text-greyLabel font-medium leading-6">Conditions: </span>
             {item.conditions}
           </p>
           <details>
@@ -118,7 +109,7 @@ export const TeacherItem: FC<TeacherProps> = ({
               onClick={toggleDetails}
               className="list-none underline cursor-pointer font-medium leading-6 mb-8 text-blue-700"
             >
-              Read more
+              {isOpen ? 'Read less' : 'Read more'}
             </summary>
 
             <TeacherReadMore item={item} status={status} />
@@ -127,10 +118,7 @@ export const TeacherItem: FC<TeacherProps> = ({
           {isOpen && (
             <TeacherButtonTrialLesson
               handleAuthCheck={() =>
-                handleAuthCheck(
-                  isUser ? "trial" : "attention",
-                  isUser ? item.id : null
-                )
+                handleAuthCheck(isUser ? 'trial' : 'attention', isUser ? item.id : null)
               }
             />
           )}

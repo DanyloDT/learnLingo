@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { LuEyeOff, LuEye } from "react-icons/lu";
-import { usePathname, useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-import { register } from "@/services/api";
-import { validationSchema } from "@/utils/registerValidationThema";
+import React, { useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { LuEyeOff, LuEye } from 'react-icons/lu';
+import { usePathname, useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import { register } from '@/services/api';
+import { validationSchema } from '@/utils/registerValidationThema';
 
 interface Values {
   name: string;
@@ -16,19 +16,21 @@ interface Values {
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const initialValues = { name: "", email: "", password: "" };
+  const initialValues = { name: '', email: '', password: '' };
   const router = useRouter();
-  const pathName = usePathname();
+  const pathname = usePathname();
 
-  const handleSubmit = async (
-    values: Values,
-    { resetForm }: { resetForm: () => void }
-  ) => {
-    document.body.style.overflow = "auto";
+  const handleSubmit = async (values: Values, { resetForm }: { resetForm: () => void }) => {
+    document.body.style.overflow = 'auto';
     try {
       await register(values);
       resetForm();
-      router.replace(pathName);
+      const currentUrl = new URL(window.location.href);
+      const params = currentUrl.searchParams;
+      params.delete('registration');
+      params.delete('attention');
+      const newPath = `${pathname}?${params.toString()}`;
+      router.replace(newPath);
     } catch (error: any) {
       toast.error(error.toString());
     }
@@ -37,14 +39,14 @@ export const RegisterForm = () => {
   return (
     <div className="flex flex-col">
       <h1
-        style={{ fontSize: "40px" }}
+        style={{ fontSize: '40px' }}
         className="mb-5 font-semibold leading-tight tracking-tight text-gray-900 font-roboto"
       >
         Registration
       </h1>
       <p className="mb-10">
-        Thank you for your interest in our platform! In order to register, we
-        need some information. Please provide us with the following information
+        Thank you for your interest in our platform! In order to register, we need some information.
+        Please provide us with the following information
       </p>
       <Formik
         onSubmit={handleSubmit}
@@ -83,7 +85,7 @@ export const RegisterForm = () => {
 
           <div className="relative w-full">
             <Field
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="Password"
               className="text-base pl-4 py-4 border border-gray-300 rounded-xl placeholder-black min-w-190 max-w-440 w-full

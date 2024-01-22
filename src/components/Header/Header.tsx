@@ -35,15 +35,18 @@ const Header: React.FC<HeaderProps> = ({ status }) => {
 
   const searchParams = useSearchParams();
   const router = useRouter();
-  const pathName = usePathname();
+  const pathname = usePathname();
 
   const showLogin = searchParams.get('login');
   const showRegistration = searchParams.get('registration');
   const showLogout = searchParams.get('logout');
 
   const handleClick = (path: string) => {
+    const currentQueryParams = new URLSearchParams(window.location.search);
+    currentQueryParams.set(path, 'true');
+    const newPathname = `${pathname}?${currentQueryParams.toString()}`;
     document.body.style.overflow = 'hidden';
-    router.push(`${pathName}/?${path}=true`);
+    router.push(newPathname);
   };
 
   useEffect(() => {

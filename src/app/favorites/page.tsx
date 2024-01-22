@@ -1,4 +1,3 @@
-"use client";
 import clsx from "clsx";
 import { FC } from "react";
 
@@ -12,7 +11,7 @@ interface FavoritesPageProps {
   searchParams: SearchParams;
 }
 
-const FavoritesPage: FC<FavoritesPageProps> = ({ searchParams }) => {
+const FavoritesPage: FC<FavoritesPageProps> = async ({ searchParams }) => {
   const randomIndex = Math.floor(Math.random() * statuses.length);
   const status = statuses[randomIndex];
 
@@ -31,7 +30,7 @@ const FavoritesPage: FC<FavoritesPageProps> = ({ searchParams }) => {
           }
         )}
       >
-        <section className="xl:px-[108px] w-full">
+        <section className="xl:px-[108px] w-full pb-8">
           <TeachersList searchParams={searchParams} status={status} />
         </section>
       </main>

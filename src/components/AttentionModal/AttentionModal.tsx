@@ -13,10 +13,14 @@ interface AttentionModalProps {
 
 export const AttentionModal: FC<AttentionModalProps> = ({ status }) => {
   const router = useRouter();
-  const pathName = usePathname();
+  const pathname = usePathname();
 
   const handleClick = (path: string) => {
-    router.push(`${pathName}/?${path}=true`);
+    const currentQueryParams = new URLSearchParams(window.location.search);
+    currentQueryParams.set(path, 'true');
+    const newPathname = `${pathname}?${currentQueryParams.toString()}`;
+    document.body.style.overflow = 'hidden';
+    router.push(newPathname);
   };
 
   return (
