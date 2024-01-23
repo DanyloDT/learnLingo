@@ -59,12 +59,9 @@ export const TeachersList: FC<TeacherListProps> = ({
     setLastDoc(favoritesData.lastVisible ?? null);
   };
 
-  console.log("this is other:", otherSearchParams);
-
   const stringifiedOtherSearchParams = stringifySearchParams(otherSearchParams);
 
   useEffect(() => {
-    console.log("render");
     const loadInitialData = async () => {
       if (pathname === "/teachers") {
         const teachersData = await getTeachersData(otherSearchParams);

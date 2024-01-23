@@ -33,9 +33,10 @@ export const SelectInput: FC<SelectInputProps> = ({
     actionMeta: ActionMeta<OptionType>
   ) => {
     const singleValueOption = selectedOption as SingleValue<OptionType>;
-    const value = singleValueOption ? singleValueOption.value : "";
+    const newValue = singleValueOption ? singleValueOption.value : "";
     const params = new URLSearchParams(searchParams.toString());
-    params.set(queryParams, value);
+
+    params.set(queryParams, newValue);
 
     replace(`${pathname}?${params.toString()}`);
   };
@@ -44,6 +45,8 @@ export const SelectInput: FC<SelectInputProps> = ({
     value: option,
     label: option,
   }));
+
+  const data = selectOptions.find((option) => option.value === selectedValue);
 
   const selectStyles = getSelectStyles({ width });
 
@@ -56,7 +59,7 @@ export const SelectInput: FC<SelectInputProps> = ({
         styles={selectStyles}
         options={selectOptions}
         onChange={handleChange}
-        value={selectOptions.find((option) => option.value === selectedValue)}
+        value={data || null}
         placeholder="-------"
       />
     </div>
